@@ -1,0 +1,97 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "bamboohr",
+  "title": "BambooHR Calendar",
+  "description": "Quickly see who is out of the office.",
+  "icon": "bamboohr-icon.png",
+  "author": "abusha",
+  "license": "MIT",
+  "categories": ["Productivity"],
+  "commands": [
+    {
+      "name": "hr-calendar",
+      "title": "View Calendar",
+      "description": "BambooHR",
+      "mode": "view"
+    },
+    {
+      "name": "bamboohr-ai",
+      "title": "Ask Calendar",
+      "description": "BambooHR",
+      "mode": "no-view",
+      "aiType": "chat"
+    }
+  ],
+  "permissions": [
+    "clipboard", 
+    "network",
+    "ai"
+  ],
+  "tools": [
+    {
+      "name": "getWhosOutToday",
+      "title": "Get Who's Out Today",
+      "description": "Retrieve a list of employees who are out of office today",
+      "path": "./src/tools/getWhosOutToday.tsx"
+    },
+    {
+      "name": "searchTimeOffByDate",
+      "title": "Search Time Off By Date",
+      "description": "Find out who is out of office on a specific date",
+      "path": "./src/tools/searchTimeOffByDate.tsx"
+    },
+    {
+      "name": "searchTimeOffByPerson",
+      "title": "Search Time Off By Person",
+      "description": "Find out when a specific person is out of office",
+      "path": "./src/tools/searchTimeOffByPerson.tsx"
+    },
+    {
+      "name": "getAllUpcomingTimeOff",
+      "title": "Get Upcoming Time Off",
+      "description": "Retrieve all upcoming time off entries for the next few weeks",
+      "path": "./src/tools/getAllUpcomingTimeOff.tsx"
+    }
+  ],
+  "ai": {
+    "instructions": "You are a helpful assistant for BambooHR. You can provide information about who is currently out of office, search for time off on specific dates, look up when a specific person has scheduled time off, and retrieve upcoming time off schedules. Always consider providing the most helpful and relevant information about employee time off. If you need specific information like a date or person's name to provide a useful answer, ask the user for that information."
+  },
+  "preferences": [
+    {
+      "name": "apiKey",
+      "title": "BambooHR API Key",
+      "description": "Your BambooHR API key. You can find this in your BambooHR account settings.",
+      "type": "password",
+      "required": true
+    },
+    {
+      "name": "subdomain",
+      "title": "BambooHR Subdomain",
+      "description": "Your BambooHR subdomain (the part before '.bamboohr.com' in your BambooHR URL)",
+      "type": "textfield",
+      "required": true
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.93.2",
+    "@raycast/utils": "^1.17.0",
+    "@types/node-fetch": "^2.6.12",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "^20.8.10",
+    "@types/react": "18.3.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
