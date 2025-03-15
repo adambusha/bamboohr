@@ -6,18 +6,18 @@
   "icon": "bamboohr-icon.png",
   "author": "abusha",
   "license": "MIT",
-  "categories": ["Productivity"],
+  "categories": ["Productivity", "Applications"],
   "commands": [
     {
       "name": "hr-calendar",
       "title": "View Calendar",
-      "description": "BambooHR",
+      "description": "See who is out of the office in BambooHR",
       "mode": "view"
     },
     {
       "name": "bamboohr-ai",
       "title": "Ask Calendar",
-      "description": "BambooHR",
+      "description": "Ask questions about time off in BambooHR",
       "mode": "no-view",
       "aiType": "chat"
     }
@@ -36,13 +36,13 @@
     },
     {
       "name": "searchTimeOffByDate",
-      "title": "Search Time Off By Date",
+      "title": "Search Time Off by Date",
       "description": "Find out who is out of office on a specific date",
       "path": "./src/tools/searchTimeOffByDate.tsx"
     },
     {
       "name": "searchTimeOffByPerson",
-      "title": "Search Time Off By Person",
+      "title": "Search Time Off by Person",
       "description": "Find out when a specific person is out of office",
       "path": "./src/tools/searchTimeOffByPerson.tsx"
     },

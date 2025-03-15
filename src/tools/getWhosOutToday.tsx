@@ -1,42 +1,44 @@
-import { getPreferenceValues } from "@raycast/api";
+// import { getPreferenceValues } from "@raycast/api";
 import { getWhosOut } from "../api/bamboohr";
 import { formatDateRange, isOutToday, parseBambooHRDate } from "../utils/dateUtils";
 import { formatTimeOffType } from "../utils/formatters";
 
-interface Preferences {
-  subdomain: string;
-  apiKey?: string;
-}
+// interface Preferences {
+//   subdomain: string;
+//   apiKey?: string;
+// }
 
 /**
- * Retrieve a list of employees who are out of office today
+ * Tool to retrieve a list of employees who are out of office today
  */
-export default async function getWhosOutToday() {
+export default async function Command() {
   try {
-    // Fetch time off data
-    const allEntries = await getWhosOut();
-    
-    // Filter entries for people who are out today
-    const outToday = allEntries.filter(entry => isOutToday(entry.start, entry.end));
-    
+    // Fetch who's out data from BambooHR
+    const entries = await getWhosOut();
+
+    // Filter for those out today
+    const outToday = entries.filter((entry) => isOutToday(entry.start, entry.end));
+
+    // Format the results
     if (outToday.length === 0) {
-      return "No one is out of the office today! Everyone is working.";
+      return { result: "Good news! No one is out of the office today." };
     }
-    
-    // Format the response
-    let response = `There ${outToday.length === 1 ? 'is' : 'are'} ${outToday.length} ${outToday.length === 1 ? 'person' : 'people'} out of the office today:\n\n`;
-    
-    outToday.forEach((entry, index) => {
+
+    // Build the response
+    let response = `${outToday.length} ${outToday.length === 1 ? "person is" : "people are"} out today:\n\n`;
+
+    outToday.forEach((entry) => {
+      // Use our dedicated BambooHR date parser to parse dates correctly
       const dateStart = parseBambooHRDate(entry.start);
       const dateEnd = parseBambooHRDate(entry.end);
-      const dateRange = formatDateRange(dateStart, dateEnd);
-      
-      response += `${index + 1}. ${entry.name} - ${formatTimeOffType(entry.timeOffType || entry.type)} (${dateRange})\n`;
+
+      const formattedDateRange = formatDateRange(dateStart, dateEnd);
+      response += `- ${entry.name} (${formatTimeOffType(entry.timeOffType || entry.type)}): ${formattedDateRange}\n`;
     });
-    
-    return response;
+
+    return { result: response };
   } catch (error) {
     console.error("Error getting who's out today:", error);
-    return "Sorry, I couldn't fetch who's out of office today due to an error.";
+    return { error: `Failed to get who's out information: ${error instanceof Error ? error.message : String(error)}` };
   }
-} 
+}
